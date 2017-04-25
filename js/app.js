@@ -79,6 +79,7 @@
   }
 
   searchBar.submit(function(event) {
+    movies.length = 0;
     event.preventDefault();
     searchVal = $('#search').val();
     var searchUrl = 'http://www.omdbapi.com/?s='+ searchVal;
@@ -88,7 +89,6 @@
       searchData.forEach(makeMovieObject);
     });
   });
-
 
 
 })();
