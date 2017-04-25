@@ -57,4 +57,38 @@
   };
 
   // ADD YOUR CODE HERE
+  var searchVal = null;
+  var searchBar = $('form');
+  var searchData = null;
+
+  function makeMovieObject(object) {
+    var movie = {};
+    for (var key in object) {
+      if(key === 'imdbID'){
+        movie.id = object.imdbID;
+      } else {
+        movie[key.toLowerCase()] = object[key];
+      }
+    }
+    $.getJSON('http://www.omdbapi.com/?i=' + movie.id + '&plot=full')
+    .done(function(data){
+      movie.plot = data.Plot;
+      movies.push(movie);
+      renderMovies();
+    });
+  }
+
+  searchBar.submit(function(event) {
+    event.preventDefault();
+    searchVal = $('#search').val();
+    var searchUrl = 'http://www.omdbapi.com/?s='+ searchVal;
+    $.getJSON(searchUrl)
+    .done(function(data) {
+      searchData = data.Search;
+      searchData.forEach(makeMovieObject);
+    });
+  });
+
+
+
 })();
